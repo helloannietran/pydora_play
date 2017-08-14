@@ -10,12 +10,14 @@ from __future__ import print_function
 
 import os
 import sys
+sys.path.insert(0,'/Users/isarasuntichotinun/Desktop/pydora_play/')
 from pandora import clientbuilder
-
 from .utils import Colors, Screen
 from .audio_backend import MPG123Player, VLCPlayer
 from .audio_backend import UnsupportedEncoding, PlayerUnusable
+import logging
 
+logger = logging.getLogger(__name__)
 
 class PlayerCallbacks(object):
     """Interface for Player Callbacks
@@ -230,10 +232,11 @@ class PlayerApp(object):
 
     def run(self):
         self.player = self.get_player()
-        self.player.start()
-
+        #self.player.start()
+    
         self.client = self.get_client()
         self.stations = self.client.get_station_list()
+        
 
         self.pre_flight_checks()
 
@@ -259,3 +262,5 @@ class PlayerApp(object):
 
 def main():
     PlayerApp().run()
+
+main()

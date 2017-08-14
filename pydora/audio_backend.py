@@ -5,7 +5,7 @@ import select
 
 from pandora.py2compat import which
 from .utils import iterate_forever, SilentPopen
-
+from .utils import Colors, Screen
 
 class PlayerException(Exception):
     """Base class for all player exceptions
@@ -182,9 +182,19 @@ class BasePlayer(object):
         This function will run forever until termintated by calling
         end_station.
         """
+        import time
         for song in iterate_forever(station.get_playlist):
             try:
-                self.play(song)
+                if song.ad_token:
+                    Screen.print_success(song.title)
+                    Screen.print_success(song.audio_url)
+                    time.sleep(30)
+                else:
+                    song_length = song.track_length
+                    Screen.print_success(song.song_name)
+                    Screen.print_success(song.track_length)
+                    time.sleep(song_length)
+                #self.play(song)
             except StopIteration:
                 self.stop()
                 return
@@ -231,6 +241,7 @@ class VLCPlayer(BasePlayer):
         self._last_poll = 0
 
     def _find_path(self):
+
         loc = which("vlc")
         if not loc:  # Mac OS X
             loc = which("VLC", path="/Applications/VLC.app/Contents/MacOS")

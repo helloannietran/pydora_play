@@ -8,6 +8,7 @@ import os.path
 
 from .py2compat import ConfigParser
 from . import Encryptor, APITransport, DEFAULT_API_HOST, APIClient
+from pydora.utils import Colors, Screen
 
 
 class TranslatingDict(dict):
